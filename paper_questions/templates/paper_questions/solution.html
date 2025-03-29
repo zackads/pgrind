@@ -1,0 +1,12 @@
+{% extends "paper_questions/base.html" %}
+
+{% block title %} {{ subject }} solution {{ id }} {% endblock %}
+
+{% block heading %} {{ subject }} solution {{ id }} {% endblock %}
+
+{% block content %}
+    <img src="{{ image_url }}" />
+    <a href="{{ question_url }}">back to question</a>
+    <a href="{{ same_subject_question_url }}">new question from {{ subject }}</a>
+    <a href="{{ random_subject_question_url }}">new question from random subject</a>
+{% endblock %}

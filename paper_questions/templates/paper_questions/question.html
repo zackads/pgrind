@@ -1,0 +1,10 @@
+{% extends "paper_questions/base.html" %}
+
+{% block title %} {{ subject }} question {{ id }} {% endblock %}
+
+{% block heading %} {{ subject }} question {{ id }} {% endblock %}
+
+{% block content %}
+    <img src="{{ image_url }}" />
+    <a href="{{ solution_url }}">solution</a>
+{% endblock %}
