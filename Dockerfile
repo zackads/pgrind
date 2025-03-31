@@ -6,7 +6,7 @@ ENV PYTHONUNBUFFERED=1
 RUN pip install --upgrade pip
 COPY . /app/
 RUN pip install --no-cache-dir -r requirements.txt
-RUN ./manage.py collectstatic --noinput
+RUN python manage.py collectstatic --noinput
 
 FROM python:3.13-slim
 RUN useradd -m -r appuser && \
