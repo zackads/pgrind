@@ -11,7 +11,7 @@ def index(request):
 
 def question(request):
     subject = request.GET.get("subject") or "comp_arch"
-    id = request.GET.get("id") or random.randint(1, 5)
+    id = request.GET.get("id") or random.randint(1, 58)
 
     return render(
         request,
