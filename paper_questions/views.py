@@ -1,7 +1,16 @@
+import os
 import random
 
 from django.shortcuts import render
 from django.templatetags.static import static
+
+from pgrind.settings import STATIC_ROOT
+
+files = [f for f in os.listdir(str(STATIC_ROOT) + "/paper_questions")]
+
+
+def question_count(subject: str) -> int:
+    return len([f for f in files if f.split("-")[0] == subject]) // 2
 
 
 def index(request):
@@ -10,8 +19,11 @@ def index(request):
 
 
 def question(request):
-    subject = request.GET.get("subject") or "comp_arch"
-    id = request.GET.get("id") or random.randint(1, 58)
+    subjects = ["data", "prob_ii", "comp_arch"]
+    subject = request.GET.get("subject") or random.choice(subjects)
+    id = request.GET.get("id") or random.randint(1, question_count(subject))
+
+    print(subject, question_count(subject))
 
     return render(
         request,
