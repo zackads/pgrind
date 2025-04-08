@@ -5,5 +5,30 @@
 {% block heading %} home {% endblock %}
 
 {% block content %}
-    <a href="{% url 'paper_questions:random_question' %}">random question</a>
+    <a href="{% url 'paper_questions:random_question' %}" type="button"
+       class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">random
+        question</a>
+    <ul role="list" class="divide-y divide-gray-200">
+        {% for subject, confidences in confidences.items %}
+            <li class="py-4">
+                <div class="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow-sm">
+                    <h2 class="px-4 py-5 sm:px-6">{{ subject }}</h2>
+                    <div class="px-4 py-5 sm:p-6">
+                        <div class="grid grid-cols-[repeat(auto-fill,_minmax(0.875rem,_1fr))] gap-1 w-full max-w-md">
+                            {% for c in confidences %}
+                                <div class="w-3.5 h-3.5
+                                            {% if c.1 == 0 %} bg-gray-200
+                                          {% elif c.1 == 1 %} bg-red-400
+                                          {% elif c.1 == 2 %} bg-amber-400
+                                          {% elif c.1 == 3 %} bg-green-400
+                                          {% endif %} rounded" title="{{ c }}">
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock %}

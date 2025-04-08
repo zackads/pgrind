@@ -15,9 +15,9 @@ class ProblemAttempt(models.Model):
         ("data", "Data"),
     ]
     CONFIDENCE_CHOICES = [
-        (0, "Hard"),
-        (1, "Medium"),
-        (2, "Easy"),
+        (1, "Hard"),
+        (2, "Medium"),
+        (3, "Easy"),
     ]
 
     attempted_at = models.DateTimeField(auto_now_add=True)

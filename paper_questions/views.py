@@ -16,9 +16,35 @@ def question_count(subject: str) -> int:
     return len([f for f in files if f.split("-")[0] == subject]) // 2
 
 
+def list_confidences(subject: str) -> list[tuple[int, int]]:
+    n = question_count(subject)
+    confidences = []
+    for i in range(1, n + 1):
+        attempt = (
+            ProblemAttempt.objects.filter(subject=subject, question=i)
+            .order_by("attempted_at")
+            .first()
+        )
+
+        if attempt:
+            confidences.append((i, attempt.confidence))
+        else:
+            confidences.append((i, 0))
+
+    return confidences
+
+
 def home(request):
     """Home"""
-    return render(request, "paper_questions/index.html")
+    subjects = [subject[0] for subject in ProblemAttempt.SUBJECT_CHOICES]
+    confidences = {subject: list_confidences(subject) for subject in subjects}
+    return render(
+        request,
+        "paper_questions/index.html",
+        {
+            "confidences": confidences,
+        },
+    )
 
 
 def question(request, subject, question):
@@ -43,8 +69,8 @@ def random_question(request):
 def attempt(request):
     ProblemAttempt.objects.create(
         subject=request.POST.get("subject"),
-        question=int(request.POST.get("question")[0]),
-        confidence=int(request.POST.get("confidence")[0]),
+        question=int(request.POST.get("question")),
+        confidence=int(request.POST.get("confidence")),
     )
 
     return HttpResponseRedirect(reverse("paper_questions:random_question"))

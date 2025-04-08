@@ -22,13 +22,13 @@
             <form action="{% url 'paper_questions:attempt' %}" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="subject" value="{{ subject }}">
-                <input type="hidden" name="question" value={{ question }}>
+                <input type="hidden" name="question" value="{{ question }}">
                 <span class="isolate inline-flex rounded-md shadow-xs">
-                    <button type="submit" name="confidence" value="0"
-                            class="relative inline-flex items-center rounded-l-md bg-red-500 px-3 py-2 text-sm font-semibold text-white ring-1 ring-gray-300 ring-inset hover:bg-red-400 focus:z-10">hard</button>
                     <button type="submit" name="confidence" value="1"
-                            class="relative -ml-px inline-flex items-center bg-amber-500 px-3 py-2 text-sm font-semibold text-white ring-1 ring-gray-300 ring-inset hover:bg-amber-400 focus:z-10">medium</button>
+                            class="relative inline-flex items-center rounded-l-md bg-red-500 px-3 py-2 text-sm font-semibold text-white ring-1 ring-gray-300 ring-inset hover:bg-red-400 focus:z-10">hard</button>
                     <button type="submit" name="confidence" value="2"
+                            class="relative -ml-px inline-flex items-center bg-amber-500 px-3 py-2 text-sm font-semibold text-white ring-1 ring-gray-300 ring-inset hover:bg-amber-400 focus:z-10">medium</button>
+                    <button type="submit" name="confidence" value="3"
                             class="relative -ml-px inline-flex items-center rounded-r-md bg-lime-500 px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-gray-300 ring-inset hover:bg-lime-400 focus:z-10">easy️
                     </button>
                 </span>
