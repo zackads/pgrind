@@ -21,15 +21,7 @@ def home(request):
     return render(request, "paper_questions/index.html")
 
 
-def question(request):
-    subjects = ["data", "prob_ii", "comp_arch"]
-    subject = request.GET.get("subject")
-    question = request.GET.get("question")
-    if not subject or not id:
-        subject = random.choice(subjects)
-        question = random.randint(1, question_count(subject))
-        return redirect(f"{request.path}?subject={subject}&question={question}")
-
+def question(request, subject, question):
     return render(
         request,
         "paper_questions/question.html",
@@ -42,6 +34,12 @@ def question(request):
     )
 
 
+def random_question(request):
+    subject = random.choice(ProblemAttempt.SUBJECT_CHOICES)[0]
+    question = random.randint(1, question_count(subject))
+    return redirect("paper_questions:question", subject=subject, question=question)
+
+
 def attempt(request):
     ProblemAttempt.objects.create(
         subject=request.POST.get("subject"),
@@ -49,13 +47,10 @@ def attempt(request):
         confidence=int(request.POST.get("confidence")[0]),
     )
 
-    return HttpResponseRedirect(reverse("paper_questions:question"))
+    return HttpResponseRedirect(reverse("paper_questions:random_question"))
 
 
-def solution(request):
-    subject = request.GET.get("subject")
-    question = request.GET.get("question")
-
+def solution(request, subject, question):
     return render(
         request,
         "paper_questions/solution.html",
@@ -63,6 +58,5 @@ def solution(request):
             "subject": subject,
             "question": question,
             "image_url": static(f"paper_questions/{subject}-s-{question}.png"),
-            "question_url": f"/question?subject={subject}&question={question}",
         },
     )

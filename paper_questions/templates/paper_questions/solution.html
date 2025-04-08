@@ -7,7 +7,7 @@
 {% block content %}
     <div class="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow-sm">
         <div class="px-4 py-5 sm:p-6">
-            <a href="{{ question_url }}"
+            <a href="{% url "paper_questions:question" subject question %}"
                class="font-medium hover:underline inline-flex items-center gap-1">
                 <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                     <path fill-rule="evenodd"
@@ -34,4 +34,5 @@
                 </span>
             </form>
         </div>
+    </div>
 {% endblock %}

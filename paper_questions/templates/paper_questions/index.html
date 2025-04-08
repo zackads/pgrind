@@ -5,5 +5,5 @@
 {% block heading %} home {% endblock %}
 
 {% block content %}
-    <a href="question">Random question</a>
+    <a href="{% url 'paper_questions:random_question' %}">random question</a>
 {% endblock %}
