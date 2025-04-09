@@ -1,4 +1,5 @@
 # Create your models here.
+from datetime import datetime, timezone
 
 from django.db import models
 
@@ -27,3 +28,6 @@ class ProblemAttempt(models.Model):
 
     def __str__(self):
         return f"{self.subject} - {self.question} at {self.attempted_at}, confidence {self.confidence}"
+
+    def days_ago(self, now = datetime.now(timezone.utc)) -> int:
+        return (now - self.attempted_at).days

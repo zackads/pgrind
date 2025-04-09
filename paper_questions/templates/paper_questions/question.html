@@ -3,6 +3,17 @@
 {% block content %}
     <div class="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow-sm">
         <div class="px-4 py-5 sm:p-6">
+            <ul class="flex flex-wrap justify-center gap-1 w-full max-w-md mx-auto">
+                {% for attempt in attempts %}
+                    <li class="w-3.5 h-3.5
+                                            {% if attempt.confidence == 0 %} bg-gray-200
+                                          {% elif attempt.confidence == 1 %} bg-red-400
+                                          {% elif attempt.confidence == 2 %} bg-amber-400
+                                          {% elif attempt.confidence == 3 %} bg-green-400
+                                          {% endif %} rounded" title="{{ attempt.days_ago }}">
+                    </li>
+                {% endfor %}
+            </ul>
             <img src="{{ image_url }}"/>
         </div>
 

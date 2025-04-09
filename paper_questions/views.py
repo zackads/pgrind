@@ -16,7 +16,7 @@ def question_count(subject: str) -> int:
     return len([f for f in files if f.split("-")[0] == subject]) // 2
 
 
-def list_confidences(subject: str) -> list[tuple[int, int]]:
+def get_confidences_by_subject(subject: str) -> list[tuple[int, int]]:
     n = question_count(subject)
     confidences = []
     for i in range(1, n + 1):
@@ -34,10 +34,18 @@ def list_confidences(subject: str) -> list[tuple[int, int]]:
     return confidences
 
 
+def get_attempts(subject: str, question: int) -> list[ProblemAttempt]:
+    return list(
+        ProblemAttempt.objects.filter(subject=subject, question=question).order_by(
+            "attempted_at"
+        )
+    )
+
+
 def home(request):
     """Home"""
     subjects = [subject[0] for subject in ProblemAttempt.SUBJECT_CHOICES]
-    confidences = {subject: list_confidences(subject) for subject in subjects}
+    confidences = {subject: get_confidences_by_subject(subject) for subject in subjects}
     return render(
         request,
         "paper_questions/index.html",
@@ -48,12 +56,24 @@ def home(request):
 
 
 def question(request, subject, question):
+    def days_ago_text(n: int) -> str:
+        if n == 0:
+            return "today"
+        elif n == 1:
+            return "yesterday"
+        else:
+            return str(n) + " days ago"
+
     return render(
         request,
         "paper_questions/question.html",
         {
             "subject": subject,
             "question": question,
+            "attempts": [
+                {"days_ago": days_ago_text(a.days_ago()), "confidence": a.confidence}
+                for a in get_attempts(subject, question)
+            ],
             "image_url": static(f"paper_questions/{subject}-q-{question}.png"),
             "solution_url": f"/solution?subject={subject}&question={question}",
         },
