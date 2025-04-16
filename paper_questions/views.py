@@ -35,11 +35,14 @@ def get_confidences_by_subject(subject: str) -> list[tuple[int, int]]:
 
 
 def get_attempts(subject: str, question: int) -> list[ProblemAttempt]:
-    return list(
-        ProblemAttempt.objects.filter(subject=subject, question=question).order_by(
-            "attempted_at"
+    if question < question_count(subject):
+        return list(
+            ProblemAttempt.objects.filter(subject=subject, question=question).order_by(
+                "attempted_at"
+            )
         )
-    )
+    else:
+        return []
 
 
 def home(request):
