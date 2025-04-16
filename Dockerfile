@@ -7,6 +7,7 @@ RUN pip install --upgrade pip
 COPY . /app/
 RUN pip install --no-cache-dir -r requirements.txt
 RUN python manage.py collectstatic --noinput
+RUN python manage.py test
 
 FROM python:3.13-slim
 RUN useradd -m -r appuser && \
