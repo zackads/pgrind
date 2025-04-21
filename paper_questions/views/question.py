@@ -15,17 +15,22 @@ def days_ago_text(n: int) -> str:
         return str(n) + " days ago"
 
 
-def question(
-    request,
-    subject=None,
-    question=None,
-):
+def parse_subjects(subjects: str) -> list[str]:
+    if subjects == "all":
+        return Problem.SUBJECTS
+    else:
+        return subjects.split("-")
+
+
+def question(request, subjects="all", subject=None, question=None):
+
     if subject:
         if question:
             return render(
                 request,
                 "paper_questions/question.html",
                 {
+                    "subjects": subjects,
                     "subject": subject,
                     "question": question,
                     "attempts": [
@@ -42,14 +47,20 @@ def question(
         else:
             random_question = random.randint(1, Problem.question_count(subject))
             return redirect(
-                "paper_questions:question", subject=subject, question=random_question
+                "paper_questions:question",
+                subjects=subjects,
+                subject=subject,
+                question=random_question,
             )
     else:
-        random_subject = random.choice(ProblemAttempt.SUBJECT_CHOICES)[0]
+        random_subject = random.choice(parse_subjects(subjects))
         random_question = random.randint(1, Problem.question_count(random_subject))
 
         return redirect(
-            "paper_questions:question", subject=random_subject, question=random_question
+            "paper_questions:question",
+            subjects=subjects,
+            subject=random_subject,
+            question=random_question,
         )
 
 

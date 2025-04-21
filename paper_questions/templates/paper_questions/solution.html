@@ -7,7 +7,7 @@
 {% block content %}
     <div class="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow-sm">
         <div class="px-4 py-5 sm:p-6">
-            <a href="{% url "paper_questions:question" subject question %}"
+            <a href="{% url "paper_questions:question" subjects subject question %}"
                class="font-medium hover:underline inline-flex items-center gap-1">
                 <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                     <path fill-rule="evenodd"
@@ -19,7 +19,7 @@
             <img src="{{ image_url }}"/>
         </div>
         <div class="px-4 py-4 sm:px-6 text-center">
-            <form action="{% url 'paper_questions:attempt' %}" method="post">
+            <form action="{% url 'paper_questions:attempt' subjects %}" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="subject" value="{{ subject }}">
                 <input type="hidden" name="question" value="{{ question }}">

@@ -11,11 +11,8 @@ class ProblemAttempt(models.Model):
     posed to the user.
     """
 
-    SUBJECT_CHOICES = [
-        ("comp_arch", "Computer Architecture"),
-        ("prob_ii", "Probability II"),
-        ("data", "Data"),
-    ]
+    SUBJECT_CHOICES = [ (s, s) for s in Problem.SUBJECTS ]
+        
     CONFIDENCE_CHOICES = [
         (1, "Hard"),
         (2, "Medium"),

@@ -2,11 +2,12 @@ from django.shortcuts import render
 from django.templatetags.static import static
 
 
-def solution(request, subject, question):
+def solution(request, subject, question, subjects="all"):
     return render(
         request,
         "paper_questions/solution.html",
         {
+            "subjects": subjects,
             "subject": subject,
             "question": question,
             "image_url": static(f"paper_questions/{subject}-s-{question}.png"),

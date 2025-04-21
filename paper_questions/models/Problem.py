@@ -6,6 +6,11 @@ files = [f for f in os.listdir(str(STATIC_ROOT) + "/paper_questions")]
 
 
 class Problem:
+    """
+    Not a Django model because questions are persisted to filesystem.
+    """
+
+    SUBJECTS = ["comp_arch", "prob_ii", "data"]
 
     @staticmethod
     def question_count(subject: str) -> int:

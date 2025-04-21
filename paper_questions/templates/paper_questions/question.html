@@ -21,10 +21,10 @@
             <span class="isolate inline-flex rounded-md shadow-xs">
             <a type="button"
                class="relative inline-flex items-center rounded-l-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white ring-1 ring-gray-300 ring-inset hover:bg-indigo-500 focus:z-10"
-               href="{% url "paper_questions:solution" subject question %}">solution</a>
+               href="{% url "paper_questions:solution" subjects subject question %}">solution</a>
             <a type="button"
                class="relative -ml-px inline-flex items-center rounded-r-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-10"
-               href="{% url "paper_questions:question.random" %}">
+               href="{% url "paper_questions:question.random" subjects %}">
                 skip
               <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                   <path fill-rule="evenodd"
