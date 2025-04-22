@@ -1,14 +1,39 @@
-from django.shortcuts import render
+from django import forms
+from django.shortcuts import render, redirect
 
-from paper_questions.models import ProblemAttempt
+from paper_questions.models import Problem
 
 
-def custom_study(request):
+class CustomStudyForm(forms.Form):
+    subjects = forms.MultipleChoiceField(
+        choices=[(subject, subject) for subject in Problem.SUBJECTS],
+        widget=forms.CheckboxSelectMultiple(
+            attrs={
+                "class": "col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-gray-800 checked:bg-gray-800 indeterminate:border-gray-800 indeterminate:bg-gray-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-800 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto"
+            }
+        ),
+        required=True,
+        error_messages={"required": "Please select at least one subject."},
+    )
+
+
+from django.http import HttpRequest
+
+
+def custom_study(request: HttpRequest):
     """Custom study session"""
-    subjects = [subject[0] for subject in ProblemAttempt.SUBJECT_CHOICES]
+    if request.method == "POST":
+        form = CustomStudyForm(request.POST)
+        if form.is_valid():
+            selected = form.cleaned_data["subjects"]
+            return redirect(
+                "paper_questions:question.random", subjects="-".join(selected)
+            )
+    else:
+        form = CustomStudyForm()
 
     return render(
         request,
         "paper_questions/custom_study.html",
-        {"subjects": [subject[0] for subject in ProblemAttempt.SUBJECT_CHOICES]},
+        {"form": form},
     )
