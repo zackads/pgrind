@@ -174,3 +174,4 @@ cython_debug/
 .pypirc
 
 staticfiles/
+**/__pycache__/
