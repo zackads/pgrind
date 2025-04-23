@@ -1,13 +1,24 @@
+from django.http import HttpRequest
 from django.shortcuts import redirect
 
 from paper_questions.models import ProblemAttempt
 
 
-def attempt(request, subjects):
+def attempt(request: HttpRequest, subjects: str, difficulties: str):
+    subject = request.POST.get("subject")
+    question = request.POST.get("question")
+    confidence = request.POST.get("confidence")
+
+    if not subject or not question or not confidence:
+        print(request.POST)
+        return redirect("paper_questions:error")
+
     ProblemAttempt.objects.create(
-        subject=request.POST.get("subject"),
-        question=int(request.POST.get("question")),
-        confidence=int(request.POST.get("confidence")),
+        subject=subject,
+        question=int(question),
+        confidence=int(confidence),
     )
 
-    return redirect("paper_questions:question.random", subjects=subjects)
+    return redirect(
+        "paper_questions:question.random", subjects=subjects, difficulties=difficulties
+    )

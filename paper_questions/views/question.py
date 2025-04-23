@@ -2,10 +2,11 @@ import random
 
 from typing import Optional
 
+from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.templatetags.static import static
 
-from paper_questions.models import ProblemAttempt, Problem
+from paper_questions.models import ProblemAttempt, Problem, Subject
 
 
 def days_ago_text(n: int) -> str:
@@ -19,17 +20,22 @@ def days_ago_text(n: int) -> str:
 
 def parse_subjects(subjects: str) -> list[str]:
     if subjects == "all":
-        return Problem.SUBJECTS
+        return [s.value for s in Subject]
     else:
         return subjects.split("-")
 
 
-from django.http import HttpRequest
+def parse_difficulties(difficulties: str) -> list[str]:
+    if difficulties == "all":
+        return [c[1] for c in ProblemAttempt.CONFIDENCE_CHOICES]
+    else:
+        return difficulties.split("-")
 
 
 def question(
     request: HttpRequest,
     subjects: str = "all",
+    difficulties: str = "all",
     subject: Optional[str] = None,
     question: Optional[int] = None,
 ):
@@ -41,6 +47,7 @@ def question(
                 "paper_questions/question.html",
                 {
                     "subjects": subjects,
+                    "difficulties": difficulties,
                     "subject": subject,
                     "question": question,
                     "attempts": [
@@ -59,6 +66,7 @@ def question(
             return redirect(
                 "paper_questions:question",
                 subjects=subjects,
+                difficulties=difficulties,
                 subject=subject,
                 question=random_question,
             )
@@ -69,6 +77,7 @@ def question(
         return redirect(
             "paper_questions:question",
             subjects=subjects,
+            difficulties=difficulties,
             subject=random_subject,
             question=random_question,
         )

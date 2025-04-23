@@ -1,13 +1,16 @@
-import os
-
 from django.shortcuts import render
+from django.http import HttpRequest
 
-from paper_questions.models import ProblemAttempt
+from paper_questions.models import ProblemAttempt, Subject
 
-def home(request):
+
+def home(request: HttpRequest):
     """Home"""
-    subjects = [subject[0] for subject in ProblemAttempt.SUBJECT_CHOICES]
-    confidences = {subject: ProblemAttempt.get_confidences_by_subject(subject) for subject in subjects}
+    subjects = [subject.value for subject in Subject]
+    confidences = {
+        subject: ProblemAttempt.get_confidences_by_subject(subject)
+        for subject in subjects
+    }
     return render(
         request,
         "paper_questions/index.html",
@@ -15,8 +18,3 @@ def home(request):
             "confidences": confidences,
         },
     )
-
-
-
-
-
