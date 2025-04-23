@@ -1,5 +1,7 @@
 import random
 
+from typing import Optional
+
 from django.shortcuts import render, redirect
 from django.templatetags.static import static
 
@@ -22,7 +24,15 @@ def parse_subjects(subjects: str) -> list[str]:
         return subjects.split("-")
 
 
-def question(request, subjects="all", subject=None, question=None):
+from django.http import HttpRequest
+
+
+def question(
+    request: HttpRequest,
+    subjects: str = "all",
+    subject: Optional[str] = None,
+    question: Optional[int] = None,
+):
 
     if subject:
         if question:
