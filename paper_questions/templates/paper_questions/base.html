@@ -50,12 +50,13 @@
                             <div class="hidden sm:ml-6 sm:block">
                                 <div class="flex space-x-4">
                                     <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                                    <a href="{% url 'paper_questions:question.random' subjects='all' difficulties='all' %}"
+                                    <a aria-label="random question"
+                                        href="{% url 'paper_questions:question.random' subjects='all' difficulties='all' %}"
                                         class="rounded-md bg-red-900 px-3 py-2 text-sm font-medium text-white"
                                         aria-current="page">random question</a>
-                                    <a href="{% url 'paper_questions:home' %}"
+                                    <a aria-label="home" href="{% url 'paper_questions:home' %}"
                                         class="rounded-md px-3 py-2 text-sm font-medium {% if request.resolver_match.url_name == 'home' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %}">home</a>
-                                    <a href="{% url 'paper_questions:custom_study.start' %}"
+                                    <a aria-label="custom study" href="{% url 'paper_questions:custom_study.start' %}"
                                         class="rounded-md px-3 py-2 text-sm font-medium {% if request.resolver_match.url_name == 'custom_study' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %}">custom
                                         study</a>
                                 </div>
