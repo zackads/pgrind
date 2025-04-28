@@ -1,2 +1,11 @@
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "pgrind.settings"
+
+[tool.pytest-watcher]
+now = true
+clear = true
+delay = 0.2
+runner = "pytest"
+runner_args = ["--reuse-db"]
+patterns = ["*.py", "*.html"]
+ignore_patterns = []

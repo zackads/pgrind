@@ -21,6 +21,6 @@ urlpatterns = [
         name="solution",
     ),
     path("attempt/<str:subjects>/<str:difficulties>", views.attempt, name="attempt"),
-    path("custom_study", views.custom_study, name="custom_study.start"),
+    path("custom_study", views.custom_study, name="custom_study"),
     path("error", views.error, name="error"),
 ]
