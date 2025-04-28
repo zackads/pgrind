@@ -6,7 +6,7 @@ from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.templatetags.static import static
 
-from paper_questions.models import ProblemAttempt, Problem, Subject
+from paper_questions.models import StaticFileProblemAttempt, StaticFileProblem, Subject
 
 
 def days_ago_text(n: int) -> str:
@@ -27,7 +27,7 @@ def parse_subjects(subjects: str) -> list[str]:
 
 def parse_difficulties(difficulties: str) -> list[str]:
     if difficulties == "all":
-        return [c[1] for c in ProblemAttempt.CONFIDENCE_CHOICES]
+        return [c[1] for c in StaticFileProblemAttempt.CONFIDENCE_CHOICES]
     else:
         return difficulties.split("-")
 
@@ -62,7 +62,9 @@ def question(
                 },
             )
         else:
-            random_question = random.randint(1, Problem.question_count(subject))
+            random_question = random.randint(
+                1, StaticFileProblem.question_count(subject)
+            )
             return redirect(
                 "paper_questions:question",
                 subjects=subjects,
@@ -72,7 +74,9 @@ def question(
             )
     else:
         random_subject = random.choice(parse_subjects(subjects))
-        random_question = random.randint(1, Problem.question_count(random_subject))
+        random_question = random.randint(
+            1, StaticFileProblem.question_count(random_subject)
+        )
 
         return redirect(
             "paper_questions:question",
@@ -83,12 +87,12 @@ def question(
         )
 
 
-def get_attempts(subject: str, question: int) -> list[ProblemAttempt]:
-    if question < Problem.question_count(subject):
+def get_attempts(subject: str, question: int) -> list[StaticFileProblemAttempt]:
+    if question < StaticFileProblem.question_count(subject):
         return list(
-            ProblemAttempt.objects.filter(subject=subject, question=question).order_by(
-                "attempted_at"
-            )
+            StaticFileProblemAttempt.objects.filter(
+                subject=subject, question=question
+            ).order_by("attempted_at")
         )
     else:
         return []

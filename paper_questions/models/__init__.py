@@ -1,2 +1,2 @@
-from .ProblemAttempt import *
-from .Problem import *
+from .StaticFileProblemAttempt import *
+from .StaticFileProblem import *

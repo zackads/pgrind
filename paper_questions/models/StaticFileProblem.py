@@ -11,7 +11,7 @@ files = [f for f in os.listdir(str(STATIC_ROOT) + "/paper_questions")]
 ProblemURL = NewType("ProblemURL", str)
 
 
-class Problem:
+class StaticFileProblem:
     subject = models.CharField(
         max_length=50, choices=[(s.value, s.value) for s in Subject]
     )

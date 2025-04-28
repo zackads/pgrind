@@ -3,11 +3,11 @@ from enum import Enum
 
 from django.db import models
 
-from .Problem import Problem
+from .StaticFileProblem import StaticFileProblem
 from .Subject import Subject
 
 
-class ProblemAttempt(models.Model):
+class StaticFileProblemAttempt(models.Model):
     """
     Record the outcome of an attempt to answer a problem posed by the app, and thus determine when the question is next
     posed to the user.
@@ -41,12 +41,12 @@ class ProblemAttempt(models.Model):
 
     @staticmethod
     def get_confidences_by_subject(subject: str) -> list[tuple[int, int]]:
-        n = Problem.question_count(subject)
+        n = StaticFileProblem.question_count(subject)
 
         confidences: list[tuple[int, int]] = []
         for i in range(1, n + 1):
             attempt = (
-                ProblemAttempt.objects.filter(subject=subject, question=i)
+                StaticFileProblemAttempt.objects.filter(subject=subject, question=i)
                 .order_by("attempted_at")
                 .last()
             )
