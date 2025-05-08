@@ -10,7 +10,6 @@ def attempt(request: HttpRequest, subjects: str, difficulties: str):
     confidence = request.POST.get("confidence")
 
     if not subject or not question or not confidence:
-        print(request.POST)
         return redirect("paper_questions:error")
 
     StaticFileProblemAttempt.objects.create(

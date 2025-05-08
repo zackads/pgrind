@@ -1,11 +1,31 @@
+[project]
+name = "pgrind"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "django>=5.2",
+    "gunicorn>=23.0.0",
+    "whitenoise>=6.9.0",
+]
+
+[dependency-groups]
+dev = [
+    "beautifulsoup4>=4.13.4",
+    "pytest>=8.3.5",
+    "pytest-django>=4.11.1",
+    "pytest-watcher>=0.4.3",
+]
+
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "pgrind.settings"
+python_files = ["test_*.py", "*_test.py", "testing/python/*.py"]
 
 [tool.pytest-watcher]
 now = true
 clear = true
 delay = 0.2
 runner = "pytest"
-runner_args = ["--reuse-db"]
 patterns = ["*.py", "*.html"]
 ignore_patterns = []

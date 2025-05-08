@@ -1,24 +1,20 @@
-FROM python:3.13-slim AS builder
-RUN mkdir /app
-WORKDIR /app
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-RUN pip install --upgrade pip
-COPY . /app/
-RUN pip install --no-cache-dir -r requirements.txt
-RUN python manage.py collectstatic --noinput --clear --link
-RUN python manage.py test
+# Inspired by https://github.com/astral-sh/uv-docker-example/blob/main/multistage.Dockerfile
 
-FROM python:3.13-slim
-RUN useradd -m -r appuser && \
-    mkdir /app && \
-    chown -R appuser /app
-COPY --from=builder /usr/local/lib/python3.13/site-packages/ /usr/local/lib/python3.13/site-packages/
-COPY --from=builder /usr/local/bin/ /usr/local/bin/
+FROM ghcr.io/astral-sh/uv:python3.13-bookworm-slim AS builder
+ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy
+ENV UV_PYTHON_DOWNLOADS=0
 WORKDIR /app
-COPY --chown=appuser:appuser . .
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-USER appuser
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --frozen --no-install-project --no-dev
+ADD . /app
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-dev
+
+FROM python:3.13-alpine
+COPY --from=builder --chown=app:app /app /app
+ENV PATH="/app/.venv/bin:$PATH"
+ENV PYTHONPATH="/app"
 EXPOSE 8000
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "pgrind.wsgi:application"]
