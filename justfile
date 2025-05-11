@@ -9,14 +9,14 @@ CLOUD_RUN_SERVICE_NAME := "app"
 GCP_STATIC_FILES_BUCKET_NAME := "pgrind_static_files"
 
 dev:
-    env $(cat .env.local | xargs) uv run ./manage.py runserver
+    DJANGO_SETTINGS_MODULE=pgrind.settings.dev uv run ./manage.py runserver
     xdg-open http://localhost:8000/
 
 test:
-    env $(cat .env.local | xargs) uv run pytest
+    DJANGO_SETTINGS_MODULE=pgrind.settings.dev uv run pytest
 
 watch:
-    env $(cat .env.local | xargs) uv run ptw .
+    DJANGO_SETTINGS_MODULE=pgrind.settings.dev uv run ptw .
 
 build:
     docker build -t {{FULLY_QUALIFIED_IMAGE_NAME}}:{{IMAGE_TAG}} .

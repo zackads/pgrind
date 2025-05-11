@@ -4,7 +4,7 @@ from django.db import models
 from django.core.validators import MinValueValidator
 
 from paper_questions.models.Subject import Subject
-from pgrind.settings import STATIC_ROOT
+from pgrind.settings.base import STATIC_ROOT
 
 files = [f for f in os.listdir(str(STATIC_ROOT) + "/paper_questions")]
 
