@@ -1,12 +1,12 @@
 from django import forms
 from django.shortcuts import render, redirect
 
-from paper_questions.models import StaticFileProblemAttempt, Subject
+from paper_questions.models import StaticFileProblemAttempt, StaticFileProblem
 
 
 class CustomStudyForm(forms.Form):
     subjects = forms.MultipleChoiceField(
-        choices=[(s.value, s.value) for s in Subject],
+        choices=[s for s in StaticFileProblem.Subject.choices],
         widget=forms.CheckboxSelectMultiple(
             attrs={
                 "class": "col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-gray-800 checked:bg-gray-800 indeterminate:border-gray-800 indeterminate:bg-gray-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-800 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto"
@@ -16,7 +16,7 @@ class CustomStudyForm(forms.Form):
         error_messages={"required": "Please select at least one subject."},
     )
     difficulties = forms.MultipleChoiceField(
-        choices=[(d[1], d[1]) for d in StaticFileProblemAttempt.CONFIDENCE_CHOICES],
+        choices=[d for d in StaticFileProblemAttempt.Confidence.choices],
         widget=forms.CheckboxSelectMultiple(
             attrs={
                 "class": "col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-gray-800 checked:bg-gray-800 indeterminate:border-gray-800 indeterminate:bg-gray-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-800 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto"

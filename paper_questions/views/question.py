@@ -6,7 +6,7 @@ from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.templatetags.static import static
 
-from paper_questions.models import StaticFileProblemAttempt, StaticFileProblem, Subject
+from paper_questions.models import StaticFileProblemAttempt, StaticFileProblem
 
 
 def days_ago_text(n: int) -> str:
@@ -20,14 +20,14 @@ def days_ago_text(n: int) -> str:
 
 def parse_subjects(subjects: str) -> list[str]:
     if subjects == "all":
-        return [s.value for s in Subject]
+        return [s.value for s in StaticFileProblem.Subject]
     else:
         return subjects.split("-")
 
 
 def parse_difficulties(difficulties: str) -> list[str]:
     if difficulties == "all":
-        return [c[1] for c in StaticFileProblemAttempt.CONFIDENCE_CHOICES]
+        return [c[1] for c in StaticFileProblemAttempt.Confidence.choices]
     else:
         return difficulties.split("-")
 
@@ -39,6 +39,15 @@ def question(
     subject: Optional[str] = None,
     question: Optional[int] = None,
 ):
+    attempts = [
+        {
+            "days_ago": days_ago_text(attempt.days_ago()),
+            "confidence": attempt.confidence,
+        }
+        for attempt in StaticFileProblemAttempt.objects.filter(
+            problem__subject=subject, problem__question_number=question
+        )
+    ]
 
     if subject:
         if question:
@@ -50,20 +59,14 @@ def question(
                     "difficulties": difficulties,
                     "subject": subject,
                     "question": question,
-                    "attempts": [
-                        {
-                            "days_ago": days_ago_text(a.days_ago()),
-                            "confidence": a.confidence,
-                        }
-                        for a in get_attempts(subject, question)
-                    ],
+                    "attempts": attempts,
                     "image_url": static(f"paper_questions/{subject}-q-{question}.png"),
                     "solution_url": f"/solution?subject={subject}&question={question}",
                 },
             )
         else:
             random_question = random.randint(
-                1, StaticFileProblem.question_count(subject)
+                1, StaticFileProblem.objects.filter(subject=subject).count()
             )
             return redirect(
                 "paper_questions:question",
@@ -75,7 +78,7 @@ def question(
     else:
         random_subject = random.choice(parse_subjects(subjects))
         random_question = random.randint(
-            1, StaticFileProblem.question_count(random_subject)
+            1, StaticFileProblem.objects.filter(subject=random_subject).count()
         )
 
         return redirect(
@@ -88,7 +91,7 @@ def question(
 
 
 def get_attempts(subject: str, question: int) -> list[StaticFileProblemAttempt]:
-    if question < StaticFileProblem.question_count(subject):
+    if question < StaticFileProblem.objects.filter(subject=subject).count():
         return list(
             StaticFileProblemAttempt.objects.filter(
                 subject=subject, question=question

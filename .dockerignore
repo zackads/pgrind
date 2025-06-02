@@ -1,1 +1,4 @@
 .venv
+settings/dev.py
+db.sqlite3
+__pycache__

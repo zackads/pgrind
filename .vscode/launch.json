@@ -12,9 +12,11 @@
             "args": [
                 "runserver"
             ],
+            "env": {
+                "DJANGO_SETTINGS_MODULE": "pgrind.settings.dev"
+            },
             "django": true,
             "autoStartBrowser": true,
-            "envFile": "${workspaceFolder}/.env.local"
         },
         {
             "name": "debug",
@@ -23,21 +25,22 @@
             "args": [
                 "runserver"
             ],
+            "env": {
+                "DJANGO_SETTINGS_MODULE": "pgrind.settings.dev"
+            },
             "django": true,
             "autoStartBrowser": true,
             "program": "${workspaceFolder}/manage.py",
-            "envFile": "${workspaceFolder}/.env.local"
         },
         {
-            "name": "test",
-            "type": "python",
+            "name": "test with debug",
+            "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/manage.py",
-            "args": [
-                "test"
-            ],
-            "django": true,
-            "envFile": "${workspaceFolder}/.env.local"
+            "module": "pytest",
+            "console": "integratedTerminal",
+            "env": {
+                "DJANGO_SETTINGS_MODULE": "pgrind.settings.dev"
+            }
         }
     ]
 }

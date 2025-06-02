@@ -2,16 +2,15 @@ import os
 
 from django.apps import apps
 from django.test import TestCase
+from django.conf import settings
 
 
 class QuestionTestCase(TestCase):
     def test_number_of_solutions_equals_number_of_questions(self):
-        static_dir = os.path.join(
-            apps.get_app_config("paper_questions").path, "static/paper_questions"
-        )
+        static_dir = os.path.join(settings.STATIC_ROOT, "paper_questions")
         files = [f for f in os.listdir(static_dir)]
 
-        for i, f in enumerate(files, start=1):
+        for _, f in enumerate(files, start=1):
             subject, q_or_s, n = f.split(".")[0].split("-")
             n = int(n)
 

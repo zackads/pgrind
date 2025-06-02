@@ -4,9 +4,14 @@ from django.test import TestCase
 from bs4 import BeautifulSoup, Tag
 from bs4.element import PageElement, AttributeValueList
 from django.urls import reverse
+from django.core.management import call_command
 
 
 class HomePageTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        call_command("collectstatic", interactive=False)
+
     def test_random_question(self):
         """
         I can select a random question from the homepage

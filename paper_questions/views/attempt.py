@@ -1,7 +1,7 @@
 from django.http import HttpRequest
 from django.shortcuts import redirect
 
-from paper_questions.models import StaticFileProblemAttempt
+from paper_questions.models import StaticFileProblemAttempt, StaticFileProblem
 
 
 def attempt(request: HttpRequest, subjects: str, difficulties: str):
@@ -12,9 +12,12 @@ def attempt(request: HttpRequest, subjects: str, difficulties: str):
     if not subject or not question or not confidence:
         return redirect("paper_questions:error")
 
+    problem = StaticFileProblem.objects.filter(
+        subject=subject, question_number=int(question)
+    ).first()
+
     StaticFileProblemAttempt.objects.create(
-        subject=subject,
-        question=int(question),
+        problem=problem,
         confidence=int(confidence),
     )
 

@@ -19,7 +19,7 @@ dev = [
 ]
 
 [tool.pytest.ini_options]
-DJANGO_SETTINGS_MODULE = "pgrind.settings"
+DJANGO_SETTINGS_MODULE = "pgrind.settings.dev"
 python_files = ["test_*.py", "*_test.py", "testing/python/*.py"]
 
 [tool.pytest-watcher]
