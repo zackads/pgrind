@@ -1,7 +1,7 @@
 [project]
-name = "pgrind"
+name = "zackads"
 version = "0.1.0"
-description = "Add your description here"
+description = "My personal site and side projects."
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
@@ -19,7 +19,7 @@ dev = [
 ]
 
 [tool.pytest.ini_options]
-DJANGO_SETTINGS_MODULE = "pgrind.settings.dev"
+DJANGO_SETTINGS_MODULE = "zackads.settings.dev"
 python_files = ["test_*.py", "*_test.py", "testing/python/*.py"]
 
 [tool.pytest-watcher]
