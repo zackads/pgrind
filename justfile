@@ -1,6 +1,8 @@
 IMAGE_TAG := `git rev-parse --short HEAD` # Currently checked out commit hash
 
 dev:
+    docker compose up db &
+    DATABASE_URL=postgres://django:django@localhost:5432/django \
     DJANGO_SETTINGS_MODULE=zackads.settings.dev uv run ./manage.py runserver
     xdg-open http://localhost:8000/
 
