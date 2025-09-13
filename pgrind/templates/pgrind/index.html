@@ -1,0 +1,32 @@
+{% extends "pgrind/base.html" %}
+
+{% block title %} home {% endblock %}
+
+{% block heading %} home {% endblock %}
+
+{% block content %}
+<ul role="list" class="grid grid-cols-1 sm:grid-cols-2 gap-4 py-4">
+    {% for subject, problems in problems_by_subject.items %}
+    <li class="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow-sm">
+        <h2 class="px-4 py-5 sm:px-6">{{ subject }}</h2>
+        <div class="px-4 py-5 sm:p-6">
+            <ul class="grid grid-cols-[repeat(auto-fill,_minmax(0.875rem,_1fr))] gap-1 w-full">
+                {% for p in problems %}
+                <a
+                    href="{% url 'pgrind:question' subjects='all' difficulties='all' subject=subject question=p.question_number %}">
+                    <li class="w-3.5 h-3.5
+                                                {% if p.most_recent_confidence == 0 %} bg-gray-200
+                                            {% elif p.most_recent_confidence == 1 %} bg-red-400
+                                            {% elif p.most_recent_confidence == 2 %} bg-amber-400
+                                            {% elif p.most_recent_confidence == 3 %} bg-green-400
+                                            {% endif %} rounded" title="{{ p.id }}">
+                    </li>
+                </a>
+                {% endfor %}
+            </ul>
+
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
