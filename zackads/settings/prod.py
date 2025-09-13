@@ -6,7 +6,7 @@ import os
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get("DEBUG", "0") == "1"
 
 # Google Cloud Run terminates HTTPS at the load balancer, so same-domain requests
 # look like cross-origin requests to Django.  This must be set to the deployed
@@ -19,4 +19,4 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",")
 
 # Redirect all HTTP traffic to HTTPS
-SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = os.environ.get("SECURE_SSL_REDIRECT", "1") == "1"
