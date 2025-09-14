@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 
 from django.db import models
 
-from .StaticFileProblem import StaticFileProblem
+from .static_file_problem import StaticFileProblem
 
 
 class StaticFileProblemAttempt(models.Model):

@@ -1,8 +1,8 @@
 from django import forms
 from django.shortcuts import render, redirect
 
-from pgrind.models.StaticFileProblem import StaticFileProblem
-from pgrind.models.StaticFileProblemAttempt import StaticFileProblemAttempt
+from pgrind.models.static_file_problem import StaticFileProblem
+from pgrind.models.static_file_problem_attempt import StaticFileProblemAttempt
 
 
 class CustomStudyForm(forms.Form):

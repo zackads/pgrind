@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.http import HttpRequest
 from django.db.models import OuterRef, Subquery, IntegerField
 
-from pgrind.models.StaticFileProblem import StaticFileProblem
-from pgrind.models.StaticFileProblemAttempt import StaticFileProblemAttempt
+from pgrind.models.static_file_problem import StaticFileProblem
+from pgrind.models.static_file_problem_attempt import StaticFileProblemAttempt
 from django.db.models.functions import Coalesce
 
 

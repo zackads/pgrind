@@ -1,6 +1,6 @@
 from django import forms
 
-from pgrind.models.Problem import Problem
+from pgrind.models.problem import Problem
 
 
 class SingleProblemUploadForm(forms.ModelForm):

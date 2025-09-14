@@ -1,7 +1,8 @@
 from django.http import HttpRequest
 from django.shortcuts import redirect
 
-from pgrind.models import StaticFileProblemAttempt, StaticFileProblem
+from pgrind.models.static_file_problem import StaticFileProblem
+from pgrind.models.static_file_problem_attempt import StaticFileProblemAttempt
 
 
 def attempt(request: HttpRequest, subjects: str, difficulties: str):

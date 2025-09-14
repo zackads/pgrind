@@ -6,7 +6,8 @@ from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.templatetags.static import static
 
-from pgrind.models import StaticFileProblemAttempt, StaticFileProblem
+from pgrind.models.static_file_problem import StaticFileProblem
+from pgrind.models.static_file_problem_attempt import StaticFileProblemAttempt
 
 
 def days_ago_text(n: int) -> str:

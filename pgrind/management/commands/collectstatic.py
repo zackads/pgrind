@@ -5,7 +5,7 @@ from django.core.management.base import CommandError
 import os
 import re
 
-from pgrind.models import StaticFileProblem
+from pgrind.models import static_file_problem
 from django.conf import settings
 from pathlib import Path
 
@@ -41,7 +41,7 @@ def load_static_metadata():
             number = int(match.group("number"))
 
             path = Path(STATIC_DIR + "/" + filename).name
-            StaticFileProblem.objects.get_or_create(
+            static_file_problem.objects.get_or_create(
                 subject=subject,
                 question_number=number,
                 static_problem_path=path,
