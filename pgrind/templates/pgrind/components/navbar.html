@@ -38,15 +38,6 @@
                 <div class="hidden sm:ml-6 sm:block">
                     <div class="flex space-x-4">
                         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                        <a aria-label="random question"
-                            href="{% url 'pgrind:question.random' subjects='all' difficulties='all' %}"
-                            class="rounded-md bg-red-900 px-3 py-2 text-sm font-medium text-white"
-                            aria-current="page">random question</a>
-
-                        <a aria-label="custom study" href="{% url 'pgrind:custom_study' %}"
-                            class="rounded-md px-3 py-2 text-sm font-medium {% if request.resolver_match.url_name == 'custom_study' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %}">custom
-                            study</a>
-
                         <a aria-label="custom study" href="{% url 'pgrind:upload' %}"
                             class="rounded-md px-3 py-2 text-sm font-medium {% if request.resolver_match.url_name == 'upload' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %}">upload</a>
                     </div>

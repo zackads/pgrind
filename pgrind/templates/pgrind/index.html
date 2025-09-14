@@ -12,8 +12,7 @@
         <div class="px-4 py-5 sm:p-6">
             <ul class="grid grid-cols-[repeat(auto-fill,_minmax(0.875rem,_1fr))] gap-1 w-full">
                 {% for p in problems %}
-                <a
-                    href="{% url 'pgrind:question' subjects='all' difficulties='all' subject=subject question=p.question_number %}">
+                <a href="{% url 'pgrind:question' p.id %}">
                     <li class="w-3.5 h-3.5
                                                 {% if p.most_recent_confidence == 0 %} bg-gray-200
                                             {% elif p.most_recent_confidence == 1 %} bg-red-400

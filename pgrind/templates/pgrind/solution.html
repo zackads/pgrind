@@ -7,7 +7,7 @@
 {% block content %}
 <div class="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow-sm">
     <div class="px-4 py-5 sm:p-6">
-        <a href="{% url 'pgrind:question' subjects difficulties subject question %}"
+        <a href="{% url 'pgrind:question' problem.id %}"
             class="font-medium hover:underline inline-flex items-center gap-1">
             <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                 <path fill-rule="evenodd"
@@ -16,11 +16,12 @@
             </svg>
             back to question
         </a>
-        <img src="{{ image_url }}" />
+        <img src="{{ problem.solution_image.url }}" />
     </div>
     <div class="px-4 py-4 sm:px-6 text-center">
-        <form aria-label="confidence" action="{% url 'pgrind:attempt' subjects difficulties %}" method="post">
+        <form aria-label="confidence" action="{% url 'pgrind:solution' problem.id %}" method="post">
             {% csrf_token %}
+            {{ form.errors }}
             <input type="hidden" name="subject" value="{{ subject }}">
             <input type="hidden" name="question" value="{{ question }}">
             <span class="isolate inline-flex rounded-md shadow-xs">

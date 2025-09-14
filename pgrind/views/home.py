@@ -2,8 +2,9 @@ from django.shortcuts import render
 from django.http import HttpRequest
 from django.db.models import OuterRef, Subquery, IntegerField
 
-from pgrind.models.static_file_problem import StaticFileProblem
-from pgrind.models.static_file_problem_attempt import StaticFileProblemAttempt
+from pgrind.models.problem import Problem
+from pgrind.models.attempt import Attempt
+from pgrind.models.subject import Subject
 from django.db.models.functions import Coalesce
 
 
@@ -11,7 +12,7 @@ def home(request: HttpRequest):
     """Home"""
     # Subquery to get the most recent confidence per problem, defaulting to 0 if no record is found
     latest_confidence_subquery = (
-        StaticFileProblemAttempt.objects.filter(problem=OuterRef("pk"))
+        Attempt.objects.filter(problem=OuterRef("pk"))
         .order_by("-attempted_at")
         .values("confidence")[:1]
     )
@@ -22,12 +23,13 @@ def home(request: HttpRequest):
     )
 
     # Annotate each problem with its most recent confidence and group by subject
-    subjects = StaticFileProblem.Subject.values
+    subjects = [s for s in Subject.objects.distinct()]
+
     problems_by_subject = {
-        subject: StaticFileProblem.objects.filter(subject=subject)
+        subject: Problem.objects.filter(subject=subject)
         .annotate(most_recent_confidence=latest_confidence_subquery)
-        .values("id", "most_recent_confidence", "question_number")
-        .order_by("question_number")
+        .values("id", "most_recent_confidence")
+        .order_by("id")
         for subject in subjects
     }
 
