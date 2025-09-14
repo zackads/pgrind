@@ -46,6 +46,9 @@
                         <a aria-label="custom study" href="{% url 'pgrind:custom_study' %}"
                             class="rounded-md px-3 py-2 text-sm font-medium {% if request.resolver_match.url_name == 'custom_study' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %}">custom
                             study</a>
+
+                        <a aria-label="custom study" href="{% url 'pgrind:upload' %}"
+                            class="rounded-md px-3 py-2 text-sm font-medium {% if request.resolver_match.url_name == 'upload' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %}">upload</a>
                     </div>
                 </div>
             </div>

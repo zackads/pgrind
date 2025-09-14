@@ -178,3 +178,4 @@ staticfiles/
 *.sqlite3*
 
 .vscode
+media/

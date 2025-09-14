@@ -118,3 +118,7 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Where to save file uploads
+MEDIA_ROOT = BASE_DIR / "media"  # physical directory where files are saved
+MEDIA_URL = "/media/"  # URL prefix to access them

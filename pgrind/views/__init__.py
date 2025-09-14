@@ -5,3 +5,4 @@ from .question import *
 from .random_question import *
 from .solution import *
 from .error import *
+from .upload import *
